@@ -3,7 +3,7 @@ import "./App.css";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import FileInput from "./components/fileInput";
+import FileInput from "./components/FileInput";
 function App() {
   return (
     <Container className="min-vh-100 d-flex align-items-center justify-content-center">
