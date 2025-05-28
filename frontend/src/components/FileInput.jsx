@@ -1,10 +1,9 @@
 import Form from "react-bootstrap/Form";
-import { ListGroup, Button, Card, Modal } from "react-bootstrap";
+import { ListGroup, Button, Card } from "react-bootstrap";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { LuDownload } from "react-icons/lu";
-import "react-json-view-lite/dist/index.css";
-
+import DetailResult from "./DetailResult";
 const API_URL = "http://127.0.0.1:8000/translate";
 const API_METHOD = "POST";
 const STATUS_IDLE = 0;
@@ -13,6 +12,10 @@ function FileInput() {
   const [files, setFiles] = useState([]);
   const [status, setStatus] = useState(STATUS_IDLE);
   const [contents, setContents] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const uploadFiles = (data) => {
     Swal.fire({
@@ -134,13 +137,23 @@ function FileInput() {
           <Card key={index} className="mt-4">
             <Card.Body className="d-flex justify-content-between align-items-center">
               {content.filename}{" "}
-              <Button
-                className="btn-download"
-                onClick={() => downloadTranslate(content)}
-                variant="link"
-              >
-                <LuDownload className="text-primary" />
-              </Button>
+              <div>
+                <Button variant="primary" onClick={handleShow}>
+                  Detail
+                </Button>
+                <DetailResult
+                  handleClose={handleClose}
+                  show={show}
+                  data={content.content}
+                />
+                <Button
+                  className="btn-download"
+                  onClick={() => downloadTranslate(content)}
+                  variant="link"
+                >
+                  <LuDownload className="text-primary" />
+                </Button>
+              </div>
             </Card.Body>
           </Card>
         ))}

@@ -30,18 +30,20 @@ def extract_translatable_values(obj, path=None, found=None):
     found = []
 
   if isinstance(obj, dict):
+    if obj.get("code") == 401 and "parameters" in obj:
+      found.append((path + ["parameters"], obj["parameters"]))
     for k, v in obj.items():
       extract_translatable_values(v, path + [k], found)
   elif isinstance(obj, list):
     for i, item in enumerate(obj):
       extract_translatable_values(item, path + [i], found)
-  elif isinstance(obj, str) and re.search(r'TRN\[\d+\]', obj):
-    found.append((path, obj))
     
   return found
 
 def translate_text(jp_text):
-  prompt = f"Terjemahkan kata berikut ke dalam Bahasa Indonesia, tanpa mengubah kode TRN:\n\n{jp_text}. Cukup berikan hasil terjemahannya saja dengan format seperti '\\TRN[(nomor)]terjemahannya'"
+  prompt = f"""Terjemahkan kalimat berikut dari bahasa Jepang ke bahasa Indonesia: :\n\n{jp_text} 
+  dengan gaya bahasa yang casual. Jika kata tersebut memiliki potongan karakter berikut: '\\TRN[n nomor]', jangan hilangkan karakter itu. 
+  Cukup berikan hasil terjemahannya saja dengan format seperti berikut: ["\\TRN[251]Sepertinya kuncinya terkunci"] jika terdapat 'TRN' dan ["Jam buka「\\FACTIME[5]」"] jika tidak ada 'TRN'"""
   completion = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
@@ -55,14 +57,14 @@ def translate_text(jp_text):
 
 def set_by_path(obj, path, value):
   for p in path[:-1]:
-    obj = obj[p]
-    
-    lastKey = path[-1]
+    obj = obj[p]  
+  lastKey = path[-1]
+
+  
 
   if isinstance(obj, dict):
     obj[str(lastKey)] = value
   elif isinstance(obj, list) and isinstance(lastKey, int):
-    # original = obj[lastKey]
     obj[lastKey] = value
 
 @app.get("/")
