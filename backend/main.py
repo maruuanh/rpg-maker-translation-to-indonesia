@@ -42,8 +42,8 @@ def extract_translatable_values(obj, path=None, found=None):
 
 def translate_text(jp_text):
   prompt = f"""Terjemahkan kalimat berikut dari bahasa Jepang ke bahasa Indonesia: :\n\n{jp_text} 
-  dengan gaya bahasa yang casual. Jika kata tersebut memiliki potongan karakter berikut: '\\TRN[n nomor]', jangan hilangkan karakter itu. 
-  Cukup berikan hasil terjemahannya saja dengan format seperti berikut: ["\\TRN[251]Sepertinya kuncinya terkunci"] jika terdapat 'TRN' dan ["Jam buka「\\FACTIME[5]」"] jika tidak ada 'TRN'"""
+  dengan gaya bahasa yang casual. Jika kata tersebut memiliki potongan karSakter berikut: '\\TRN[n nomor]', jangan hilangkan karakter itu. 
+  Cukup berikan hasil terjemahannya saja dengan format seperti berikut: '\\TRN[251]Sepertinya kuncinya terkunci' jika terdapat 'TRN' dan 'Jam buka「\\FACTIME[5]' jika tidak ada 'TRN'"""
   completion = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
