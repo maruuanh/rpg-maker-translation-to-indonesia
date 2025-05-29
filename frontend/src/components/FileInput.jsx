@@ -4,7 +4,8 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { LuDownload } from "react-icons/lu";
 import DetailResult from "./DetailResult";
-const API_URL = "http://127.0.0.1:8000/translate";
+const API_URL =
+  "https://rpg-maker-translation-to-indonesia-backend-production.up.railway.app/translate";
 const API_METHOD = "POST";
 const STATUS_IDLE = 0;
 const STATUS_UPLOADING = 1;
