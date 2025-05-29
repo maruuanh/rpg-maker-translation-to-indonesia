@@ -60,12 +60,10 @@ def set_by_path(obj, path, value):
     obj = obj[p]  
   lastKey = path[-1]
 
-  
-
   if isinstance(obj, dict):
-    obj[str(lastKey)] = value
+    obj[str(lastKey)] = [value]
   elif isinstance(obj, list) and isinstance(lastKey, int):
-    obj[lastKey] = value
+    obj[lastKey] = [value]
 
 @app.get("/")
 def read_root():
